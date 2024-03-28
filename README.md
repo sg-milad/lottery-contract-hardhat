@@ -1,4 +1,4 @@
-# This is a simple solidity lottery contract. don't use this on production because has a Vulnerability
+# This is a simple lottery contract with solidity. don't use this on production because it has a Vulnerability
 
 ## Sample Hardhat Project
 
@@ -14,5 +14,5 @@ npx hardhat run --network localhost scripts/deploy.ts
 
 ## to do
 
-- get random number from [chainlink](https://chain.link/)
+- get a random number from [chainlink](https://chain.link/)
 - add more test
