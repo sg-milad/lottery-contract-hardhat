@@ -6,10 +6,12 @@ import "./Lottery.sol"; // Import the Lottery contract
 contract LotteryManager {
     address public lotteryAddress; // Address of the deployed Lottery contract
     address public manager;
+    bool public lotteryState;
 
     constructor() {
         manager = msg.sender;
-        lotteryAddress = address(new Lottery(manager)); // Create a new instance of the Lottery contract
+        lotteryState = true; // Set to true by default
+        lotteryAddress = address(new Lottery(manager, address(this))); // Create a new instance of the Lottery contract
     }
 
     modifier onlyManager() {
@@ -21,11 +23,16 @@ contract LotteryManager {
     }
 
     function openLottery() public onlyManager {
-        Lottery(lotteryAddress).openLottery();
+        require(!lotteryState, "Lottery is already open");
+        lotteryState = true;
     }
 
     function closeLottery() public onlyManager {
-        Lottery(lotteryAddress).closeLottery();
-        Lottery(lotteryAddress).pickWinner();
+        require(lotteryState, "Lottery is already closed");
+        lotteryState = false;
+    }
+
+    function getLotteryState() public view returns (bool) {
+        return lotteryState;
     }
 }
