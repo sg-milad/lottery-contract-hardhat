@@ -31,8 +31,4 @@ contract LotteryManager {
         require(lotteryState, "Lottery is already closed");
         lotteryState = false;
     }
-
-    function getLotteryState() public view returns (bool) {
-        return lotteryState;
-    }
 }
