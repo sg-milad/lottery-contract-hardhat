@@ -22,11 +22,13 @@ contract LotteryManager {
         _;
     }
 
+    /* --------------------- open the lottery if it close -------------------- */
     function openLottery() public onlyManager {
         require(!lotteryState, "Lottery is already open");
         lotteryState = true;
     }
 
+    /* ---------------------- close the contract if it open --------------------- */
     function closeLottery() public onlyManager {
         require(lotteryState, "Lottery is already closed");
         lotteryState = false;
