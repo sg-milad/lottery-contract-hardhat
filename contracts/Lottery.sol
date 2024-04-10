@@ -1,14 +1,17 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.24;
 
+import "./LotteryManager.sol";
+
 contract Lottery {
     address[] public players;
     address public manager;
-    bool public lotteryState;
+    address public lotteryManager; // Reference to LotteryManager contract instance
 
     /* -------------------- Constructor to set the manager ------------------- */
-    constructor(address _manager) {
+    constructor(address _manager, address _lotteryManager) {
         manager = _manager;
+        lotteryManager = _lotteryManager; // Set reference to LotteryManager contract instance
     }
 
     /* -------- Modifier to restrict access to manager-only functions -------- */
@@ -22,10 +25,14 @@ contract Lottery {
 
     /* -------- Modifier to restrict enter player whene it's close -------- */
     modifier onlyWhenLotteryOpen() {
-        require(lotteryState, "Lottery is not open for entries");
+        require(
+            LotteryManager(lotteryManager).lotteryState(),
+            "Lottery is not open for entries"
+        );
         _;
     }
 
+    /* ------------------------- get list of all players ------------------------ */
     function getPlayers() public view returns (address[] memory) {
         return players;
     }
@@ -53,13 +60,5 @@ contract Lottery {
         address winner = players[index];
         payable(winner).transfer(address(this).balance); // Transfer the balance to the winner
         delete players;
-    }
-
-    function openLottery() public onlyManager {
-        lotteryState = true;
-    }
-
-    function closeLottery() public onlyManager {
-        lotteryState = false;
     }
 }
