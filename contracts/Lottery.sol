@@ -4,10 +4,11 @@ pragma solidity ^0.8.24;
 contract Lottery {
     address[] public players;
     address public manager;
+    bool public lotteryState;
 
     /* -------------------- Constructor to set the manager ------------------- */
-    constructor() {
-        manager = msg.sender;
+    constructor(address _manager) {
+        manager = _manager;
     }
 
     /* -------- Modifier to restrict access to manager-only functions -------- */
@@ -19,12 +20,18 @@ contract Lottery {
         _;
     }
 
+    /* -------- Modifier to restrict enter player whene it's close -------- */
+    modifier onlyWhenLotteryOpen() {
+        require(lotteryState, "Lottery is not open for entries");
+        _;
+    }
+
     function getPlayers() public view returns (address[] memory) {
         return players;
     }
 
     /* --------- allow players to enter the lottery by sending ether --------- */
-    function enterPlayer() public payable {
+    function enterPlayer() public payable onlyWhenLotteryOpen {
         require(msg.value > 0.2 ether, "Insufficient ether sent");
         players.push(msg.sender);
     }
@@ -46,5 +53,13 @@ contract Lottery {
         address winner = players[index];
         payable(winner).transfer(address(this).balance); // Transfer the balance to the winner
         delete players;
+    }
+
+    function openLottery() public onlyManager {
+        lotteryState = true;
+    }
+
+    function closeLottery() public onlyManager {
+        lotteryState = false;
     }
 }
