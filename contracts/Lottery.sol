@@ -54,7 +54,7 @@ contract Lottery {
     }
 
     /* ----------------  pick the winner and transfer balance ---------------- */
-    function pickWinner() public onlyManager {
+    function pickWinner() public payable onlyManager {
         require(players.length > 0, "No players in the lottery");
         uint index = random() % players.length;
         address winner = players[index];
