@@ -11,7 +11,7 @@ contract LotteryManager {
     constructor() {
         manager = msg.sender;
         lotteryState = true; // Set to true by default
-        lotteryAddress = address(new Lottery(manager, address(this))); // Create a new instance of the Lottery contract
+        createLottery();
     }
 
     modifier onlyManager() {
@@ -20,6 +20,11 @@ contract LotteryManager {
             "Only the manager can call this function"
         );
         _;
+    }
+
+    /* -------------- Create a new instance of the Lottery contract ------------- */
+    function createLottery() public onlyManager {
+        lotteryAddress = address(new Lottery(manager, address(this)));
     }
 
     /* --------------------- open the lottery if it close -------------------- */
