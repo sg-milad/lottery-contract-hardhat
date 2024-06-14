@@ -12,5 +12,17 @@
         "bracketSpacing": false
       }
     }
-  ]
+  ],
+  "singleQuote": false,
+  "trailingComma": "all",
+  "endOfLine": "auto",
+  "tabWidth": 4,
+  "semi": true,
+  "printWidth": 120,
+  "bracketSpacing": true,
+  "useTabs": false,
+  "arrowParens": "always",
+  "quoteProps": "as-needed",
+  "requirePragma": false,
+  "insertPragma": false
 }
