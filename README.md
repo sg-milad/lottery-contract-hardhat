@@ -14,8 +14,10 @@ npx hardhat run --network localhost scripts/deploy.ts
 
 ## to do
 
-- get a random number from [chainlink](https://chain.link/)
-- refactor test
-- add more test
+-   get a random number from [chainlink](https://chain.link/)
+-   add more test
+
 ### done
-- add another contract to start and end the lottery ✔️
+
+-   refactor test ✔️
+-   add another contract to start and end the lottery ✔️
