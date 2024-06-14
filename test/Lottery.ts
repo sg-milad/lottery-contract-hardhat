@@ -12,10 +12,14 @@ describe("Lottery", function () {
     // Contracts are deployed using the first signer/account by default
     const [manager, AccountOne, accountTwe] = await hre.viem.getWalletClients();
 
-    const lottery = await hre.viem.deployContract("Lottery", undefined,);
-    console.log("gas", lottery.estimateGas);
-    console.log("manager", await lottery.read.manager());
+    const lotteryManager = await hre.viem.deployContract("LotteryManager");
+    const lotteryAddress = await lotteryManager.read.lotteryAddress()
+
+    const lottery = (await hre.viem.getContractAt("Lottery", lotteryAddress))
     const publicClient = await hre.viem.getPublicClient();
+
+    console.log("manager address", await lottery.read.manager());
+    console.log("lottery address:", lotteryAddress);
 
     return {
       lottery,
