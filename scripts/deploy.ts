@@ -1,11 +1,12 @@
 import hre from "hardhat";
 
 async function main() {
-  const Lottery = await hre.viem.deployContract("Lottery", undefined)
-  console.log("gas", Lottery.estimateGas);
-  console.log("manager", await Lottery.read.manager());
+  const LotteryManager = await hre.viem.deployContract("LotteryManager")
+  console.log("manager", await LotteryManager.read.manager());
 
-  console.log(`lottery deployed to ${Lottery.address}`);
+  console.log(`lottery manager contract address: ${LotteryManager.address}`);
+  console.log(`manager address: ${await LotteryManager.read.manager()}`);
+  console.log(`lottery contract address: ${await LotteryManager.read.lotteryAddress()}`);
 }
 
 main().catch((error) => {
